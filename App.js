@@ -1,21 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {NavBar} from "./conponents/Header";
+import {AddToDo} from "./conponents/AddToDo";
+import {Task} from "./conponents/Tasks";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [toDo, setToDo] = useState([{id: '212', task: 'sd'}])
+
+    const addTask = (task) => {
+        const newTask = {
+            id: Date.now().toString(),
+            task
+        }
+        setToDo([...toDo, newTask])
+    }
+
+    return (
+        <View style={styles.container}>
+            <NavBar text={"First App!"}/>
+            <AddToDo onSubmit={addTask}/>
+            <Text
+                style={styles.text}
+            >
+                Hello world!
+            </Text>
+            {toDo.map(
+                task => <Task
+                    key={task.id}
+                    task={task.task}
+                />
+            )}
+            <StatusBar style="auto"/>
+        </View>
+    );
 }
 
+// ____________ styles for App component_____________
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        alignItems: 'center',
+    },
+    text: {
+        color: "#069",
+        fontSize: 20,
+    }
 });
